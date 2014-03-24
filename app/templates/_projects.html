@@ -1,0 +1,38 @@
+<ul class="posts">
+    {% for project in projects %}
+        <li class="post">
+            <div class="post-thumbnail">
+                <a href="{{ url_for('.user', username=project.students[0].username) }}">
+                    <img class="img-rounded profile-thumbnail" src="{{ project.students[0].gravatar(size=40) }}">
+                </a>
+            </div>
+            <div class="post-content">
+                <div class="post-date">{{ moment(project.timestamp).fromNow() }}</div>
+                <div class="post-author"><a href="{{ url_for('.user', username=project.students[0].username) }}">{{ project.students[0].username }}</a></div>
+                <div class="post-body">
+                    <h1>{{project.name}}</h1>
+                    <p>{{ project.subject}}</p>
+                    <p>{{ project.description}}</p>
+                    <p>help wanted, mentorship status</p>
+                </div>
+                <div class="post-footer">
+                    {% if current_user in project.students %}
+                    <a href="{{ url_for('.edit_project', id=project.id) }}">
+                        <span class="label label-primary">Edit</span>
+                    </a>
+                    {% elif current_user.is_administrator() %}
+                    <a href="{{ url_for('.edit_project', id=project.id) }}">
+                        <span class="label label-danger">Edit [Admin]</span>
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('.view_project', id=project.id) }}">
+                        <span class="label label-default">Permalink</span>
+                    </a>
+                    <a href="{{ url_for('.view_project', id=project.id) }}#comments">
+                        <span class="label label-primary">{{ project.comments.count() }} Comments</span>
+                    </a>
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>

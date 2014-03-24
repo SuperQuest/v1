@@ -1,0 +1,16 @@
+<ul class="posts">
+    {% for person in people %}
+    <li class="post">
+        <div class="post-content">
+            <div class="post-body">
+                <ul>
+                    <li>About me: {{ person.about_me }}</li>
+                </ul>
+                <ul>
+                    <li>More later</li>
+                </ul>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>

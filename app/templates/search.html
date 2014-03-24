@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Flasky - Project{% endblock %}
+
+{% block head %}
+{{ super() }}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles2.css') }}">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+{% endblock %}
+
+
+
+{% block page_content %}
+
+<!-- Begin Body -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-3" id="leftCol">
+      <h1>Pick a Subject</h1>              
+      <ul class="nav nav-stacked" id="sidebar">
+        <li><a href="{{ url_for('main.search_projects_by_subject', subject='mathematics') }}">Mathematics</a></li>
+        <li><a href="{ url_for('main.search_projects_by_subject', subject='science') }}">Science</a></li>
+        <li><a href="{{ url_for('main.search_projects_by_subject', subject='engineering') }}">Engineering</a></li>
+        <li><a href="{{ url_for('main.search_projects_by_subject', subject='literature') }}">Literature</a></li>
+        <li><a href="{{ url_for('main.search_projects_by_subject', subject='creative-writing') }}">Creative Writing</a></li>
+        <li><a href="{{ url_for('main.search_projects_by_subject', subject='music') }}">Music</a></li>
+        <li><a href="{{ url_for('main.search_projects_by_subject', subject='public-service') }}">Public Service</a></li>
+        <li><a href="{{ url_for('main.search_projects_by_subject', subject='entrepreneurship') }}">Entrepreneurship</a></li>
+        <li><a href="{{ url_for('main.search_projects_by_subject', subject='art') }}">Art</a></li>
+      </ul>
+
+      <h1>Pick a School</h1>              
+      <ul class="nav nav-stacked" id="sidebar">
+        <li><a href="{{ url_for('main.search_projects_by_school', school='new-country') }}">The New Country School</a></li>
+        <li><a href="{{ url_for('main.search_projects_by_school', school='big-ideas') }}">The Big Ideas School</a></li>
+        <li><a href="{{ url_for('main.search_projects_by_school', school='high-tech-high') }}">High Tech High School</a></li>
+        <li><a href="{{ url_for('main.search_projects_by_school', school='arcadia') }}">Arcadia</a></li>
+        <li><a href="{{ url_for('main.search_projects_by_school', school='ventures') }}">Ventures Academy</a></li>
+      </ul>
+    </div> 
+    <div class="col-md-9">
+      {% if blurb %}
+        <h1>{{ blurb['body'] }}</h1>
+      {% endif %}
+      {% include "_projects.html" %}
+     </div> 
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block page_content %}
+<!-- advertisement -->
+<div class = "container">
+  <div class = "jumbotron text-center">
+    <h1>SUPERQUEST</h1>
+    <p>A place for students for find mentorship for their projects.</p>
+    <a class = "btn btn-default" href="">Watch Now</a>
+    <a class = "btn btn-info" href="">Tweet It!</a>
+  </div>
+
+</div>
+
+<!-- grid -->
+<div class = "container" style="margin-bottom: 70px" id="bottomproblem">
+    <!-- when you go lower than medium, go vertical. could be lg, sm -->
+  {% for bunch in bunches %}
+    <div class = "row">
+      <div class = "col-md-3">
+        <h3><a href="#">{{ bunch[0].name }}</a></h3>
+        <p>{{bunch[0].description}}</p>
+        <a class = "btn btn-success" href="#">Volunteer</a>
+      </div>
+      <div class = "col-md-3">
+        <h3><a href="#">{{ bunch[1].name }}</a></h3>
+        <p>{{bunch[1].description}}</p>
+        <a class = "btn btn-success" href="#">Volunteer</a>
+      </div>      
+      <div class = "col-md-3">
+        <h3><a href="#">{{ bunch[2].name }}</a></h3>
+        <p>{{bunch[2].description}}</p>
+        <a class = "btn btn-success" href="#">Volunteer</a>
+      </div>
+      <div class = "col-md-3">
+        <h3><a href="#">{{ bunch[3].name }}</a></h3>
+        <p>{{bunch[3].description}}</p>
+        <a class = "btn btn-success" href="#">Volunteer</a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<!-- bottom booter -->
+<div class = "navbar navbar-default navbar-fixed-bottom">
+  <div class="container">
+    <p class="navbar-text pull-left">Site Built By Justin Moen</p>
+    <a class = "navbar-btn btn-danger btn pull-right" href="http://www.youtube.com">Subscribe on Youtube</a>
+
+  </div>
+</div>
+
+<!-- contact customer support: at bottom because fine if loads last -->
+<div class = "modal fade" id = "contact" mode = "dialog">
+  <div class = "modal-dialog">
+    <div class = "modal-content">
+      
+      <form class = "form-horizontal">
+        
+        <div class = "modal-header">
+          <h4>Contact Tech Site</h4>
+        </div>
+        
+        <div class = "modal-body">
+          
+          <div class = "form-group">
+            <label for "contact-name" class = "col-lg-2 control-label">Name:</label>
+            <div class = "col-lg-10">
+              <input type = "text" class = "form-control" id = "contact-name" placeholder = "Full Name">
+            </div>
+          </div>
+
+          <div class = "form-group">
+            <label for "contact-email" class = "col-lg-2 control-label">Email:</label>
+            <div class = "col-lg-10">
+              <input type = "email" class = "form-control" id = "contact-email" placeholder = "you@example.com">
+            </div>
+          </div>
+
+          <div class = "form-group">
+            <label for "contact-msg" class = "col-lg-2 control-label">Message:</label>
+            <div class = "col-lg-10">
+              <!-- this gives it form styling -->
+              <textarea class = "form-control" rows = "6"></textarea>
+            </div>
+          </div>
+          <div class = "modal-footer">
+            <a class = "btn btn-default" data-dismiss = "modal" href="#">Close</a>
+            <button class = "btn btn-primary" type = "submit">Send</button>
+          </div>
+      </form>
+      
+    </div>
+  </div>
+</div>
+
+<!-- can omit the http or httmps in src -->
+<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src = "js/bootstrap.js"></script>
+
+{% endblock %}
