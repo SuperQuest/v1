@@ -4,9 +4,10 @@
         <div class="post-content">
             <div class="post-body">
                 <ul>
+                    <li>Username: {{ person.username }}</li>
+                    <li>Role: {{ person.new_role.capitalize() }}</li>
                     <li>About me: {{ person.about_me }}</li>
-                </ul>
-                <ul>
+                    <li>Number of projects: {{ person.student_projects.count() }}</li>
                     <li>More later</li>
                 </ul>
             </div>

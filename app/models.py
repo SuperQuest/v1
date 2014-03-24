@@ -96,6 +96,7 @@ class Project(db.Model):
     name = db.Column(db.String(60))
     description = db.Column(db.Text)
     subject = db.Column(db.String(60))
+    help_wanted = db.Column(db.String(140))
     comments = db.relationship('Comment', backref='project', lazy='dynamic')
     # comments = db.Column(db.String(50), default=[])
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)

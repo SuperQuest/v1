@@ -32,29 +32,29 @@ def server_shutdown():
     return 'Shutting down...'
 
 
-@main.route('/posts', methods=['GET', 'POST'])
-def index():
-    form = PostForm()
-    if current_user.can(Permission.WRITE_ARTICLES) and \
-            form.validate_on_submit():
-        post = Post(body=form.body.data,
-                    author=current_user._get_current_object())
-        db.session.add(post)
-        return redirect(url_for('.index'))
-    page = request.args.get('page', 1, type=int)
-    show_followed = False
-    if current_user.is_authenticated():
-        show_followed = bool(request.cookies.get('show_followed', ''))
-    if show_followed:
-        query = current_user.followed_posts
-    else:
-        query = Post.query
-    pagination = query.order_by(Post.timestamp.desc()).paginate(
-        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
-        error_out=False)
-    posts = pagination.items
-    return render_template('index.html', form=form, posts=posts,
-                           show_followed=show_followed, pagination=pagination)
+# @main.route('/posts', methods=['GET', 'POST'])
+# def index():
+#     form = PostForm()
+#     if current_user.can(Permission.WRITE_ARTICLES) and \
+#             form.validate_on_submit():
+#         post = Post(body=form.body.data,
+#                     author=current_user._get_current_object())
+#         db.session.add(post)
+#         return redirect(url_for('.index'))
+#     page = request.args.get('page', 1, type=int)
+#     show_followed = False
+#     if current_user.is_authenticated():
+#         show_followed = bool(request.cookies.get('show_followed', ''))
+#     if show_followed:
+#         query = current_user.followed_posts
+#     else:
+#         query = Post.query
+#     pagination = query.order_by(Post.timestamp.desc()).paginate(
+#         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+#         error_out=False)
+#     posts = pagination.items
+#     return render_template('index.html', form=form, posts=posts,
+#                            show_followed=show_followed, pagination=pagination)
 
 
 @main.route('/user/<username>')
@@ -364,8 +364,7 @@ def all_mentors():
 def your_mentors(username):
     user = User.query.filter_by(username=username).first_or_404()
     mentors = User.query.all()
-    return render_template('your_mentors.html', user=user, people=mentors,
-                           pagination=pagination)
+    return render_template('your_mentors.html', people=mentors)
 
 @main.route('/user/<username>/your-students')
 def your_students(username):
