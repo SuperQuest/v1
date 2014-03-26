@@ -19,6 +19,7 @@
 <!-- Begin Body -->
 <div class="container">
   <div class="row">
+    
     <div class="col-md-3" id="leftCol">
       <h1>Pick a Subject</h1>              
       <ul class="nav nav-stacked" id="sidebar">
@@ -42,12 +43,14 @@
         <li><a href="{{ url_for('main.search_projects_by_school', school='ventures') }}">Ventures Academy</a></li>
       </ul>
     </div>  
+
     <div class="col-md-9">
       {% if blurb %}
         {% include '_subject_blurb.html' %}
       {% endif %}
       {% include "_projects.html" %}
-     </div> 
-    </div>
+   </div> 
+
+  </div>
 </div>
 {% endblock %}

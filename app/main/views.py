@@ -355,16 +355,15 @@ def edit_project(id):
     form.description.data = project.description
     return render_template('edit_post.html', form=form)
 
-@main.route('/all-mentors')
-def all_mentors():
-    mentors = User.query.filter_by(new_role='mentor').all()
-    return render_template('all_mentors.html', people=mentors)
+# @main.route('/all-mentors')
+# def all_mentors():
+#     pass
 
 @main.route('/user/<username>/your-mentors')
 def your_mentors(username):
     user = User.query.filter_by(username=username).first_or_404()
     mentors = User.query.all()
-    return render_template('your/your_mentors.html', people=mentors)
+    return render_template('your/your_mentors.html', mentors=mentors)
 
 @main.route('/user/<username>/your-students')
 def your_students(username):
@@ -389,6 +388,22 @@ def search_projects():
     projects = Project.query.all()
     blurb = {'body': "These are all of the projects"}
     return render_template('search.html', projects=projects, blurb=blurb)
+
+@main.route('/search-mentors', methods=['GET', 'POST'])
+def search_mentors():
+    mentors = User.query.all()
+    blurb = {'body': "These are all of the mentors"}
+    return render_template('search_mentors.html', mentors=mentors, blurb=blurb)
+
+@main.route('/search-mentors/<subject>', methods=['GET', 'POST'])
+def search_mentors_by_subject(subject):
+    """ still need to filter by mentor interests """
+    mentors = User.query.filter_by(new_role='mentor').all()
+                         # filter_by(subject.in_.User.interests).\
+                         
+    blurb = {'body': "These are all of the projects"}
+    return render_template('search_mentors.html', mentors=mentors, 
+                           blurb=blurb)
 
 @main.route('/projects/search-by-subject/<subject>', methods=['GET', 'POST'])
 def search_projects_by_subject(subject):

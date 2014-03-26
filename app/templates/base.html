@@ -24,20 +24,45 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 {% if current_user.is_authenticated() %}
-                <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>                
-                    {% if current_user.new_role == 'student' %}
-                    <li><a href="{{ url_for('main.view_projects_by_user', username=current_user.username) }}">Your Projects</a></li>
-                    <li><a href="{{ url_for('main.your_mentors', username=current_user.username) }}">Your Mentors</a></li>
-                    {% elif current_user.new_role == 'teacher' %}
-                    <li><a href="{{ url_for('main.your_students', username=current_user.username) }}">Your Students</a></li>
-                    {% elif current_user.new_role == 'mentor' %}
-                    <li><a href="{{ url_for('main.your_mentees', username=current_user.username) }}">Your Mentees</a></li>
-                    {% elif current_user.new_role == 'parents' %}
-                    <li><a href="{{ url_for('main.your_kids', username=current_user.username) }}">Your Kids</a></li>
-                    {% endif %}               
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                          You <b class="caret"></b>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
+                        {% if current_user.new_role == 'student' %}
+                        <li><a href="{{ url_for('main.view_projects_by_user', username=current_user.username) }}">Your Projects</a></li>
+                        <li><a href="{{ url_for('main.your_mentors', username=current_user.username) }}">Your Mentors</a></li>
+                        {% elif current_user.new_role == 'teacher' %}
+                        <li><a href="{{ url_for('main.your_students', username=current_user.username) }}">Your Students</a></li>
+                        {% elif current_user.new_role == 'mentor' %}
+                        <li><a href="{{ url_for('main.your_mentees', username=current_user.username) }}">Your Mentees</a></li>
+                        {% elif current_user.new_role == 'parents' %}
+                        <li><a href="{{ url_for('main.your_kids', username=current_user.username) }}">Your Kids</a></li>
+                        {% endif %}       
+                      </ul>
+                    </li>
                 {% endif %}                             
-                <li><a href="{{ url_for('main.search_projects') }}">Search for Projects</a></li>
-                <li><a href="{{ url_for('main.create_project') }}">Create a Project</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Discover <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('main.search_projects') }}">Search Projects</a></li>
+                        <li><a href="{{ url_for('main.search_mentors') }}">Search Mentors</a></li>
+                    </ul>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Create <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('main.search_projects') }}">Create a Project</a></li>
+                        <li><a href="#">Create a Posse</a></li>
+                        <li><a href="#">Create a Mentorship Request</a></li>
+                    </ul>
+                </li>   
                 <li><a href="#contact" data-toggle = "modal">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

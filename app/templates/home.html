@@ -24,7 +24,15 @@
       <div class = "col-md-3">
         <h3><a href="{{ url_for('main.view_project', id=berry.id) }}">{{ berry.name }}</a></h3>
         <p>{{berry.description}}</p>
-        <a class = "btn btn-success" href="{{ url_for('main.volunteer', id=berry.id) }}">Volunteer</a>
+        {% if current_user.is_authenticated() %}
+          {% if current_user.new_role == 'student' %}
+            <a class = "btn btn-success" href="{{ url_for('main.collaborate', id=berry.id) }}">Collaborate</a>
+          {% else %}
+            <a class = "btn btn-success" href="{{ url_for('main.volunteer', id=berry.id) }}">Volunteer</a>
+          {% endif %}
+        {% else %}
+          <a class = "btn btn-success" href="{{ url_for('main.volunteer', id=berry.id) }}">Volunteer</a>
+        {% endif %}
       </div>
     {% endfor %}
     </div>

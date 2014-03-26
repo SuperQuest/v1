@@ -1,45 +1,61 @@
+{% for mentor in mentors %}
 
-{% for mentor in people %}
 <div class="page-header">
     <img class="img-rounded profile-thumbnail" src="{{ mentor.gravatar(size=256) }}">
     <div class="profile-header">
-        <h1>{{ mentor.username }}</h1>
-        {% if mentor.name or mentor.location %}
-        <p>
-            {% if mentor.name %}{{ mentor.name }}<br>{% endif %}
-            {% if mentor.location %}
-                From <a href="http://maps.google.com/?q={{ mentor.location }}">{{ mentor.location }}</a><br>
-            {% endif %}
-        </p>
-        {% endif %}
-        {% if current_user.is_administrator() %}
-        <p><a href="mailto:{{ mentor.email }}">{{ mentor.email }}</a></p>
-        {% endif %}
-        {% if mentor.about_me %}<p>{{ mentor.about_me }}</p>{% endif %}
-        <p>Member since {{ moment(mentor.member_since).format('L') }}. Last seen {{ moment(mentor.last_seen).fromNow() }}.</p>
-        <p>{{ mentor.posts.count() }} blog posts. {{ mentor.comments.count() }} comments.</p>
-        <p>
-            {% if current_user.can(Permission.FOLLOW) and mentor != current_user %}
-                {% if not current_user.is_following(mentor) %}
-                <a href="{{ url_for('.follow', username=mentor.username) }}" class="btn btn-primary">Follow</a>
-                {% else %}
-                <a href="{{ url_for('.unfollow', username=mentor.username) }}" class="btn btn-default">Unfollow</a>
-                {% endif %}
-            {% endif %}
-            <a href="{{ url_for('.followers', username=mentor.username) }}">Followers: <span class="badge">{{ mentor.followers.count() - 1 }}</span></a>
-            <a href="{{ url_for('.followed_by', username=mentor.username) }}">Following: <span class="badge">{{ mentor.followed.count() - 1 }}</span></a>
-            {% if current_user.is_authenticated() and mentor != current_user and mentor.is_following(current_user) %}
-            | <span class="label label-default">Follows you</span>
-            {% endif %}
-        </p>
-        <p>
-            {% if mentor == current_user %}
-            <a class="btn btn-default" href="{{ url_for('.edit_profile') }}">Edit Profile</a>
-            {% endif %}
-            {% if current_user.is_administrator() %}
-            <a class="btn btn-danger" href="{{ url_for('.edit_profile_admin', id=mentor.id) }}">Edit Profile [Admin]</a>
-            {% endif %}
-        </p>
+    	<div class="row">
+    	<div class="col-md-6">
+
+	        {% if mentor.name %}
+		        <h1 style-"font-size: 26px">
+		        	{{ mentor.name }}
+					{% if mentor == current_user %}
+			            <a class="btn btn-default btn-sm" style="text-align: right" href="{{ url_for('.edit_profile') }}">Edit Profile</a>
+		            {% endif %}
+		            {% if current_user.is_administrator() %}
+			            <a class="btn btn-danger" href="{{ url_for('.edit_profile_admin', id=mentor.id) }}">Edit Profile [Admin]</a>
+		            {% endif %}
+		        </h1>
+		    {% else %}
+			    <h1>{{ mentor.username }}</h1>
+	        {% endif %}
+
+	        {% if current_user.is_administrator() %}
+	        <p><a href="mailto:{{ mentor.email }}">{{ mentor.email }}</a></p>
+	        {% endif %}
+
+	        {% if mentor.about_me %}<p><b>About: </b>{{ mentor.about_me }}</p>{% endif %}
+
+	        <p><b>Expertise: </b>{{ mentor.expertise }}</p>
+
+	        <p><b>Topics I Like: </b>{{ mentor.interests }}</p>
+
+	        <p>
+	            {% if current_user.can(Permission.FOLLOW) and mentor != current_user %}
+	                {% if not current_user.is_following(mentor) %}
+	                <a href="{{ url_for('.follow', username=mentor.username) }}" class="btn btn-primary">Follow</a>
+	                {% else %}
+	                <a href="{{ url_for('.unfollow', username=mentor.username) }}" class="btn btn-default">Unfollow</a>
+	                {% endif %}
+	            {% endif %}
+	            <a href="{{ url_for('.followers', username=mentor.username) }}">Followers: <span class="badge">{{ mentor.followers.count() - 1 }}</span></a>
+	            <a href="{{ url_for('.followed_by', username=mentor.username) }}">Following: <span class="badge">{{ mentor.followed.count() - 1 }}</span></a>
+	            {% if current_user.is_authenticated() and mentor != current_user and mentor.is_following(current_user) %}
+	            | <span class="label label-default">Follows you</span>
+	            {% endif %}
+	        </p>
+	        <p>
+	            
+	        </p>
+	    </div>
+	    <div class="col-md-6">
+	    	<h1>Projects</h1>
+
+	    	{% for project in mentor.student_projects[0:5] %}
+	    		<p><a href="{{ url_for('.view_project', id=project.id) }}">{{ project.name }}</a></p>
+	    	{% endfor %}
+		</div>
+		</div>
     </div>
 </div>
 

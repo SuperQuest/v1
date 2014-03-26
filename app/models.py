@@ -73,10 +73,10 @@ mentor_project_association_table = db.Table(
         db.Column('project_id', db.Integer, db.ForeignKey('projects.id'))
 )
 
-mentor_to_mentee = db.Table("mentor_to_mentee", 
+mentor_mentee_association_table = db.Table("mentor_to_mentee", 
         db.Model.metadata,
         db.Column("mentors", db.Integer, db.ForeignKey("users.id"), primary_key=True),
-        db.Column("mentee", db.Integer, db.ForeignKey("users.id"), primary_key=True)
+        db.Column("mentees", db.Integer, db.ForeignKey("users.id"), primary_key=True)
 )
 
 class Project(db.Model):
@@ -141,7 +141,7 @@ class User(UserMixin, db.Model):
     teacher_email = db.Column(db.String(100))
 
     mentor_projects = db.relationship('Project',
-                               secondary=student_project_association_table,
+                               secondary=mentor_project_association_table,
                                backref="mentors",
                                lazy='dynamic')
 
@@ -153,7 +153,8 @@ class User(UserMixin, db.Model):
     #### MENTOR
     mentee_milestones_completed = db.Column(db.Integer)
     interests = db.Column(db.String(100))
-    linkedin_id = interests = db.Column(db.String(100))
+    expertise = db.Column(db.String(100))
+    linkedin_id = db.Column(db.String(100))
 
     #### TEACHER
     participate = db.Column(db.Boolean)

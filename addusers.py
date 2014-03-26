@@ -23,8 +23,9 @@ two = User(email="moenx271@umn.com",
 three = User(email="justin@superquest.co",
 			  username="justin",
 			  new_role="mentor",
+			  expertise="hardware hacking, painting, entrepreneurship",
 			  linkedin_id="highstatus",
-			  interests="engineering",
+			  interests="Arduino, Flying Machines, Service projects",
 			  password_hash=password_hash,
 			  confirmed=True)
 
