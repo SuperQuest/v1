@@ -78,9 +78,9 @@ def deploy():
     # create self-follows for all users
     User.add_self_follows()
 
-    User.generate_fake()
-    Post.generate_fake()
-    Project.generate_fake()
+    # User.generate_fake()
+    # Post.generate_fake()
+    # Project.generate_fake()
 
 if __name__ == '__main__':
     manager.run()
