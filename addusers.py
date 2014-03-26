@@ -1,5 +1,4 @@
-
-
+from app.models import User, Role, Project, Post
 
 Role.insert_roles()
 
@@ -29,16 +28,17 @@ three = User(email="justin@superquest.co",
 			  password_hash=password_hash,
 			  confirmed=True)
 
-
-User.generate_fake()
-Post.generate_fake()
-
-for post in Post.query.filter_by(author=None): db.session.delete(post)
-
 db.session.add(one)
 db.session.add(two)
 db.session.add(three)
 db.session.commit()	  
+
+User.generate_fake()
+Post.generate_fake()
+Project.generate_fake()
+
+for post in Post.query.filter_by(author=None): db.session.delete(post)
+
 
 subjects =['mathematics', 'science', 'engineering', 'literature', 'music', \
 		   'service', 'entrepreneurship', 'art', 'public-service',

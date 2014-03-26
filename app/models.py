@@ -102,6 +102,61 @@ class Project(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     schools = db.Column(db.String())
 
+    @staticmethod
+    def generate_fake(count=100):
+        from sqlalchemy.exc import IntegrityError
+        from random import seed, randint
+        import forgery_py
+
+        projects = ['Beautiful Water Color Mural',
+                    'Arduino Robot T-Rex',
+                    '3d-Printed Sewing Maching',
+                    'Collection of poetry about my grandparents',
+                    'Comic books convention']
+
+        subjects = ['art',
+                    'engineering',
+                    'engineering',
+                    'creative-writing',
+                    'public-service']
+        seed()
+        user_count = User.query.count()
+        for i in range(count):
+            u = User.query.offset(randint(0, user_count - 1)).first()
+            v = User.query.offset(randint(0, user_count - 1)).first()
+            p = Project(description=forgery_py.lorem_ipsum.sentences(randint(1, 5)),
+                     timestamp=forgery_py.date.date(True),
+                     name=projects[count%5],
+                     subject=subjects[count%5],
+                     help_wanted = 'Encouragement!')
+            u.student_projects.append(p)
+            v.mentor_projects.append(p)
+            db.session.add(p)
+            db.session.commit()
+
+        subjects =['mathematics', 'science', 'engineering', 'literature', 'music', \
+           'service', 'entrepreneurship', 'art', 'public-service',
+           'creative-writing']
+
+        length = len(subjects)
+
+        projects = []
+        all_students = User.query.filter_by(new_role="student").all()
+
+        for i in range(20):
+            name = 'Project' + str(i)
+            description = "a total work of Genius"
+            subject = subjects[i%length]
+            project = Project(name=name, description=description, 
+                              subject=subject)
+            db.session.add(project)
+            student = all_students[i%10]
+            student.student_projects.append(project)
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
+
 class User(UserMixin, db.Model):
     """ also has mentors, students from backrefs """
 
@@ -188,6 +243,36 @@ class User(UserMixin, db.Model):
                 db.session.commit()
             except IntegrityError:
                 db.session.rollback()
+
+        password_hash = generate_password_hash('g')
+
+        one = User(email="jamoen7@gmail.com",
+                      username="jamoen7",
+                      new_role="student",
+                      school="new-country",
+                      password_hash=password_hash,
+                      confirmed=True)
+
+        two = User(email="moenx271@umn.com",
+                      username="moenx271",
+                      new_role="teacher",
+                      school="blake",
+                      password_hash=password_hash,
+                      confirmed=True)   
+
+        three = User(email="justin@superquest.co",
+                      username="justin",
+                      new_role="mentor",
+                      expertise="hardware hacking, painting, entrepreneurship",
+                      linkedin_id="highstatus",
+                      interests="Arduino, Flying Machines, Service projects",
+                      password_hash=password_hash,
+                      confirmed=True)
+
+        db.session.add(one)
+        db.session.add(two)
+        db.session.add(three)
+        db.session.commit()   
 
     @staticmethod
     def add_self_follows():
