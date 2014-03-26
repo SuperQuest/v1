@@ -17,30 +17,19 @@
 <!-- grid -->
 <div class = "container" style="margin-bottom: 70px" id="bottomproblem">
     <!-- when you go lower than medium, go vertical. could be lg, sm -->
+  
   {% for bunch in bunches %}
     <div class = "row">
+    {% for berry in bunch %}
       <div class = "col-md-3">
-        <h3><a href="#">{{ bunch[0].name }}</a></h3>
-        <p>{{bunch[0].description}}</p>
-        <a class = "btn btn-success" href="#">Volunteer</a>
+        <h3><a href="{{ url_for('main.view_project', id=berry.id) }}">{{ berry.name }}</a></h3>
+        <p>{{berry.description}}</p>
+        <a class = "btn btn-success" href="{{ url_for('main.volunteer', id=berry.id) }}">Volunteer</a>
       </div>
-      <div class = "col-md-3">
-        <h3><a href="#">{{ bunch[1].name }}</a></h3>
-        <p>{{bunch[1].description}}</p>
-        <a class = "btn btn-success" href="#">Volunteer</a>
-      </div>      
-      <div class = "col-md-3">
-        <h3><a href="#">{{ bunch[2].name }}</a></h3>
-        <p>{{bunch[2].description}}</p>
-        <a class = "btn btn-success" href="#">Volunteer</a>
-      </div>
-      <div class = "col-md-3">
-        <h3><a href="#">{{ bunch[3].name }}</a></h3>
-        <p>{{bunch[3].description}}</p>
-        <a class = "btn btn-success" href="#">Volunteer</a>
-      </div>
+    {% endfor %}
     </div>
   {% endfor %}
+
     <div class="row">
       <div class="col-md-12">
         <br>

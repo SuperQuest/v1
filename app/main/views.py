@@ -364,25 +364,25 @@ def all_mentors():
 def your_mentors(username):
     user = User.query.filter_by(username=username).first_or_404()
     mentors = User.query.all()
-    return render_template('your_mentors.html', people=mentors)
+    return render_template('your/your_mentors.html', people=mentors)
 
 @main.route('/user/<username>/your-students')
 def your_students(username):
     user = User.query.filter_by(username=username).first_or_404()
     students = User.query.all()
-    return render_template('your_mentors.html', people=students)
+    return render_template('your/your_mentors.html', people=students)
 
 @main.route('/user/<username>/your-mentees')
 def your_mentees(username):
     user = User.query.filter_by(username=username).first_or_404()
     mentees = User.query.all()
-    return render_template('your_mentors.html', people=mentees)
+    return render_template('your/your_mentors.html', people=mentees)
 
 @main.route('/user/<username>/your-kids')
 def your_kids(username):
     user = User.query.filter_by(username=username).first_or_404()
     kids = User.query.all()
-    return render_template('your_mentors.html', people=kids)
+    return render_template('your/your_mentors.html', people=kids)
 
 @main.route('/projects/search', methods=['GET', 'POST'])
 def search_projects():
@@ -448,3 +448,11 @@ def home():
     bunches = [recent_projects[0:4],recent_projects[4:8],recent_projects[8:12],
                recent_projects[12:16],recent_projects[16:20]]
     return render_template('home.html', bunches=bunches)
+
+@main.route('/project/<int:id>/collaborate')
+def collaborate(id):
+    return render_template('collaborate.html', id=id)
+    
+@main.route('/project/<int:id>/volunteer')
+def volunteer(id):
+    return render_template('volunteer.html', id=id)    

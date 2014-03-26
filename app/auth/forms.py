@@ -1,9 +1,16 @@
 from flask.ext.wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms import TextAreaField
+from wtforms import TextAreaField, SelectField
 from wtforms.validators import Required, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from ..models import User
+
+schools = [('none', "None"),
+           ('new-country', 'The New Country School'),
+           ('big-ideas','The Big Ideas School'),
+           ('high-tech-high', "High Tech High"),
+           ('arcadia', 'Arcadia'),
+           ('ventures', 'Ventures Academy')]
 
 
 class LoginForm(Form):
@@ -35,7 +42,7 @@ class RegistrationForm(Form):
             raise ValidationError('Username already in use.')
 
 class StudentRegistrationForm(RegistrationForm):
-    school = StringField('School', validators=[Required(), Length(1,64)])
+    school = SelectField(u'School', choices=schools)
     teacher_email = StringField('Teacher Email', 
                                 validators=[Required(), Length(1,64)])
     submit = SubmitField('Register')
@@ -47,7 +54,7 @@ class MentorRegistrationForm(RegistrationForm):
     submit = SubmitField('Register')
 
 class TeacherRegistrationForm(RegistrationForm):
-    school = StringField('School', validators=[Required(), Length(1,64)])
+    school = SelectField(u'School', choices=schools)
     submit = SubmitField('Register')
 
 class ParentRegistrationForm(RegistrationForm):
