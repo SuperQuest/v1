@@ -22,8 +22,9 @@
     <div class="col-md-3" id="leftCol">
       <h1>Pick a Subject</h1>              
       <ul class="nav nav-stacked" id="sidebar">
+        <li><a href="{{ url_for('main.search_projects') }}">All Projects</a></li>
         <li><a href="{{ url_for('main.search_projects_by_subject', subject='mathematics') }}">Mathematics</a></li>
-        <li><a href="{ url_for('main.search_projects_by_subject', subject='science') }}">Science</a></li>
+        <li><a href="{{ url_for('main.search_projects_by_subject', subject='science') }}">Science</a></li>
         <li><a href="{{ url_for('main.search_projects_by_subject', subject='engineering') }}">Engineering</a></li>
         <li><a href="{{ url_for('main.search_projects_by_subject', subject='literature') }}">Literature</a></li>
         <li><a href="{{ url_for('main.search_projects_by_subject', subject='creative-writing') }}">Creative Writing</a></li>
