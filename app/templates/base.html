@@ -1,12 +1,11 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}Flasky{% endblock %}
+{% block title %}SUPERQUEST{% endblock %}
 
 {% block head %}
 {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+ <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 {% endblock %}
 
 {% block navbar %}
@@ -59,11 +58,11 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for('main.create_project') }}">Create a Project</a></li>
-                        <li><a href="#">Create a Posse</a></li>
+                        <li><a href="#">Create a Group</a></li>
                         <li><a href="#">Create a Mentorship Request</a></li>
                     </ul>
                 </li>   
-                <li><a href="#contact" data-toggle = "modal">Contact</a></li>
+                <li><a href="#contact" data-toggle="modal">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.can(Permission.MODERATE_COMMENTS) %}
@@ -111,6 +110,40 @@
 
 {% block scripts %}
 {{ super() }}
+
+  <script>
+  
+  // When the browser is ready...
+  $(function() {
+  
+    // Setup form validation on the #register-form element
+    $("#contact").validate({
+    
+        // Specify the validation rules
+        rules: {
+            name: "required",
+            email: {
+                required: true,
+                email: true
+            },
+            message: "retuired"
+        },
+        
+        // Specify the validation error messages
+        messages: {
+            name: "Please enter your name",
+            email: "Please enter a valid email address",
+            agree: "Please tell us what your thinking"
+        },
+        
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+  });
+
+</script>
 
 {{ moment.include_moment() }}
 {% endblock %}
