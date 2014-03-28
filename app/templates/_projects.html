@@ -17,9 +17,9 @@
                 </div>
                 <div class="post-footer">
                     {% if current_user.new_role == 'student' %}
-                    <a href="#"><span class="label label-danger">Collaborate</span></a>
+                    <a href="{{ url_for('.collaborate', id=project.id) }}"><span class="label label-danger">Collaborate</span></a>
                     {% else %}
-                    <a href="#"><span class="label label-success">Volunteer</span></a>
+                    <a href="{{ url_for('.advise', id=project.id) }}"><span class="label label-success">Advise</span></a>
                     <a href="#"><span class="label label-danger">Email to a Friend</span></a>
                     {% endif %}
                     {% if current_user in project.students %}

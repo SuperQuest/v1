@@ -18,7 +18,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url_for('main.home') }}" id="logo"><b>SUPERQUEST</b></a>
+            <a class="navbar-brand" style="color:white;" href="{{ url_for('main.home') }}" id="logo"><b>SUPERQUEST</b></a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -62,11 +62,11 @@
                         <li><a href="#">Create a Mentorship Request</a></li>
                     </ul>
                 </li>   
-                <li><a href="#contact" data-toggle="modal">Contact</a></li>
+                <li><a href="{{ url_for('main.basic_handle_contact_form') }}" data-toggle="modal">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.can(Permission.MODERATE_COMMENTS) %}
-                <li><a href="{{ url_for('main.moderate') }}">Moderate Comments</a></li>
+                <li><a href="{{ url_for(gmoderate) }}">Moderate Comments</a></li>
                 {% endif %}
                 {% if current_user.is_authenticated() %}
                 <li class="dropdown">

@@ -55,10 +55,11 @@ def register():
 def register_student():
     form = StudentRegistrationForm()
     if form.validate_on_submit():
+        teacher = User.query.filter_by(email=form.teacher_email.data)
         user = User(email=form.email.data,
                     username=form.username.data,
                     password=form.password.data,
-                    teacher_email=form.teacher_email.data,
+                    teachers=[teacher],
                     school=form.school.data,
                     new_role='student')
         db.session.add(user)

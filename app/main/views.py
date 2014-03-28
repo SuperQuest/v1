@@ -4,8 +4,10 @@ from flask.ext.login import login_required, current_user
 from flask.ext.sqlalchemy import get_debug_queries
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm, PostForm,\
-    CommentForm, ProjectForm, SearchForm
+    CommentForm, ProjectForm, SearchForm, ContactForm, AdviseForm,\
+    CollaborateForm
 from .. import db
+from ..email import send_email, send_email_cc
 from ..models import Permission, Role, User, Post, Comment, Project
 from ..decorators import admin_required, permission_required
 
@@ -464,10 +466,87 @@ def home():
                recent_projects[12:16],recent_projects[16:20]]
     return render_template('home.html', bunches=bunches)
 
-@main.route('/project/<int:id>/collaborate')
+@main.route('/project/<int:id>/collaborate', methods=['GET','POST'])
+@login_required
 def collaborate(id):
-    return render_template('collaborate.html', id=id)
+    form = CollaborateForm()
+    project = Project.query.get_or_404(id)
+    student = project.students[0]
+    teacher = project.teachers[0]
+    outsider_student = current_user
+    if form.validate_on_submit():
+        flash('Collaboration request submitted successfullt! You will hear back soon!')
+        interest = form.interest.data
+        help_offered = form.help_offered.data
+        progress = form.progress.data
+        send_email_cc('xpeducate@gmail.com',
+                   outsider_student.email,
+                   "Another student has expressed interest in one of\
+                   your student's projects",
+                   'mail/collaborate_email',
+                   student=student, teacher=teacher, outsider_student=outsider_student,
+                   project=project, interest=interest, help_offered=help_offered,
+                   progress=progress)
+        return redirect(url_for('main.search_projects'))
+    return render_template('advise.html', id=id, form=form,
+                           project=project)    
     
-@main.route('/project/<int:id>/volunteer')
-def volunteer(id):
-    return render_template('volunteer.html', id=id)    
+@main.route('/project/<int:id>/advise', methods=['GET','POST'])
+@login_required
+def advise(id):
+    form = AdviseForm()
+    project = Project.query.get_or_404(id)
+    student = project.students[0]
+    teacher = project.teachers[0]
+    advisor = current_user
+    if form.validate_on_submit():
+        flash('Email sent successfully. You should hear back soon.')
+        interest = form.interest.data
+        help_offered = form.help_offered.data
+        send_email_cc('xpeducate@gmail.com',
+                   advisor.email,
+                   "Advisor has expressed interest in one of\
+                   your student's projects",
+                   'mail/advise_email',
+                   student=student, teacher=teacher, advisor=advisor,
+                   project=project, interest=interest, help_offered=help_offered
+                   )
+        return redirect(url_for('main.search_projects'))
+    return render_template('advise.html', id=id, form=form,
+                           project=project)    
+
+@main.route('/contact', methods=["POST", "GET"])
+def handle_contact_form():
+    if request.method == 'POST':
+        flash('Email sent successfully.')
+        name = User.get(request.form['name'])
+        email = User.get(request.form['email'])
+        message = User.get(request.form['message'])
+        form = ContactForm(name=name, email=email, message=message)
+        if form.validate_on_submit():
+            send_email('teacher.email',
+                       'Customer Feedback',
+                       'mail/contact_email')
+            flash('Justin has been contacted!')
+            return redirect(url_for('.home'))
+    elif request.method == 'GET':
+        flash('Error submitting form')
+        form = ContactForm()
+        render_template('contact.html', form=form)
+
+
+@main.route('/contact-basic', methods=["POST", "GET"])
+def basic_handle_contact_form():
+    form = ContactForm()
+    if form.validate_on_submit():
+        name=str(form.name.data[0]),
+        email=str(form.email.data[0]),
+        message=str(form.message.data[0])
+        send_email('justin@superquest.co',
+                       'Customer Feedback',
+                       'mail/contact_email', name=name, email=email,
+                       message=message)                 
+        return redirect(url_for('main.home'))
+    return render_template('new_contact.html', form=form)
+
+

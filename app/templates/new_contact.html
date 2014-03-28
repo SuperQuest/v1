@@ -5,15 +5,15 @@
 {% block title %}SUPERQUEST{% endblock %}
 
 {% block page_content %}
-<div class="page-header">
-    <h1>Hello, {% if current_user.is_authenticated() %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
-</div>
-<div>
-    
+<div class="col-md-3"></div>
+<div class="col-md-8">
+    <h2 style:"text-align: center">Tell us what you think</h2>
+    <br>
+    <br>
     {{ wtf.quick_form(form) }}
     
 </div>
-
+<div class="col-md-3"></div>
 {% endblock %}
 
 {% block scripts %}

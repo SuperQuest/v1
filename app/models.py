@@ -9,7 +9,6 @@ from flask.ext.login import UserMixin, AnonymousUserMixin
 from app.exceptions import ValidationError
 from . import db, login_manager
 
-
 class Permission:
     FOLLOW = 0x01
     COMMENT = 0x02
@@ -17,6 +16,8 @@ class Permission:
     MODERATE_COMMENTS = 0x08
     ADMINISTER = 0x80
 
+class School:
+    pass
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -73,10 +74,16 @@ mentor_project_association_table = db.Table(
         db.Column('project_id', db.Integer, db.ForeignKey('projects.id'))
 )
 
-mentor_mentee_association_table = db.Table("mentor_to_mentee", 
+teacher_project_association_table = db.Table("teacher_to_project", 
         db.Model.metadata,
-        db.Column("mentors", db.Integer, db.ForeignKey("users.id"), primary_key=True),
-        db.Column("mentees", db.Integer, db.ForeignKey("users.id"), primary_key=True)
+        db.Column('teacher_id', db.Integer, db.ForeignKey('users.id')),
+        db.Column('project_id', db.Integer, db.ForeignKey('projects.id'))
+)
+
+kid_parent_association_table = db.Table("kid_parent_association_table", 
+        db.Model.metadata,
+        db.Column("parent_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
+        db.Column("kid_id", db.Integer, db.ForeignKey("users.id"), primary_key=True)
 )
 
 class Project(db.Model):
@@ -101,6 +108,8 @@ class Project(db.Model):
     # comments = db.Column(db.String(50), default=[])
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     schools = db.Column(db.String())
+
+
 
     @staticmethod
     def generate_fake(count=100):
@@ -195,15 +204,32 @@ class User(UserMixin, db.Model):
     school = db.Column(db.String(100))
     teacher_email = db.Column(db.String(100))
 
-    mentor_projects = db.relationship('Project',
+    student_projects = db.relationship('Project',
                                secondary=mentor_project_association_table,
+                               backref="students",
+                               lazy='dynamic')
+
+    teacher_projects = db.relationship('Project',
+                               secondary=student_project_association_table,
+                               backref="teachers",
+                               lazy='dynamic')
+
+    mentor_projects = db.relationship('Project',
+                               secondary=teacher_project_association_table,
                                backref="mentors",
                                lazy='dynamic')
 
-    student_projects = db.relationship('Project',
-                               secondary=student_project_association_table,
-                               backref="students",
-                               lazy='dynamic')
+    # parents = db.relationship('User',
+    #                            secondary=kid_parent_association_table,
+    #                            foreign_keys=[kid_parent_association_table.parent_id],
+    #                            backref="kids",
+    #                            lazy='dynamic')
+
+    # kids = db.relationship('User',
+    #                            secondary=kid_parent_association_table,
+    #                            foreign_keys=[kid_parent_association_table.kid_id],
+    #                            backref="parents",
+    #                            lazy='dynamic')
 
     #### MENTOR
     mentee_milestones_completed = db.Column(db.Integer)
@@ -253,6 +279,14 @@ class User(UserMixin, db.Model):
                       password_hash=password_hash,
                       confirmed=True)
 
+        four = User(email="xpeducate@gmail.com",
+                      username="xpeducate",
+                      new_role="teacher",
+                      school="new-country",
+                      password_hash=password_hash,
+                      confirmed=True)
+
+
         two = User(email="moenx271@umn.com",
                       username="moenx271",
                       new_role="teacher",
@@ -272,6 +306,7 @@ class User(UserMixin, db.Model):
         db.session.add(one)
         db.session.add(two)
         db.session.add(three)
+        db.session.add(four)
         db.session.commit()   
 
     @staticmethod

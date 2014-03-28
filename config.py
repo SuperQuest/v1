@@ -12,8 +12,8 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
-    FLASKY_MAIL_SENDER = 'Flasky Admin <jamoen7@gmail.com>'
+    FLASKY_MAIL_SUBJECT_PREFIX = '***SUPERQUEST***'
+    FLASKY_MAIL_SENDER = 'Justin at SuperQuest <justin@superquest.co>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     FLASKY_POSTS_PER_PAGE = 20
     FLASKY_FOLLOWERS_PER_PAGE = 50

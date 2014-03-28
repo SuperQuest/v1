@@ -12,7 +12,6 @@ schools = [('none', "None"),
            ('arcadia', 'Arcadia'),
            ('ventures', 'Ventures Academy')]
 
-
 class LoginForm(Form):
     email = StringField('Email', validators=[Required(), Length(1, 64),
                                              Email()])

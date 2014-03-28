@@ -27,10 +27,10 @@
           {% if current_user.new_role == 'student' %}
             <a class = "btn btn-success" href="{{ url_for('main.collaborate', id=berry.id) }}">Collaborate</a>
           {% else %}
-            <a class = "btn btn-success" href="{{ url_for('main.volunteer', id=berry.id) }}">Volunteer</a>
+            <a class = "btn btn-success" href="{{ url_for('main.advise', id=berry.id) }}">Advise</a>
           {% endif %}
         {% else %}
-          <a class = "btn btn-success" href="{{ url_for('main.volunteer', id=berry.id) }}">Volunteer</a>
+          <a class = "btn btn-success" href="{{ url_for('main.advise', id=berry.id) }}">Advise</a>
         {% endif %}
       </div>
     {% endfor %}

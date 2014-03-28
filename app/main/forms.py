@@ -83,3 +83,20 @@ class SearchForm(Form):
                       widget=widgets.ListWidget(prefix_label=False))
     submit = SubmitField('Submit')
 
+class ContactForm(Form):
+    name = StringField('Name', validators=[Length(0, 64)])
+    email = StringField('Email', validators=[Required(), Length(1, 64),
+                                             Email()])
+    message = TextAreaField('Message')
+    submit = SubmitField('Submit')
+
+class AdviseForm(Form):
+    interest = TextAreaField("What interests you about this project?")
+    help_offered = TextAreaField("How can you help?")
+    submit = SubmitField('Submit')
+
+class CollaborateForm(Form):
+    interest = TextAreaField("What interests you about this project?")
+    help_offered = TextAreaField("How can you help?")
+    progress = TextAreaField("Have you made any progress towards a similar idea?")
+    submit = SubmitField('Submit')

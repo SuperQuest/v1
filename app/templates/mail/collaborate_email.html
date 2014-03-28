@@ -1,0 +1,10 @@
+<p>Dear {{ teacher.name }}, </p> 
+<p>Your student {{ student.name }} has received an collaboration offer</p>
+<p>from student <a href="{{ url_for('main.user', username=outsider_student.username) }}"></a>{{ outsider_student.name }} (email: {{ outsider_student.email }}, CC'd) to collaborate on the project entitled {{ project.name }}</p>
+<p>From {{ outsider_student.name }}:</p>
+<p><b>What interest me about this project:</b> {{ interest }}</p>
+<p><b>How I can help:</b> {{ help_offered }}</p>
+<p><b>Progress I have made on similar Ideas: {{ progress }}</b></p>
+<br>
+
+<p>Please engage {{ outsider_student.name }} at {{ outsider_student.email }}</p>

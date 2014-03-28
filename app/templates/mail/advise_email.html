@@ -1,0 +1,8 @@
+<p>Dear {{ teacher.name }}, </p> 
+<p>Your student {{ student.name }} has received an advising offer</p>
+<p>from professional <a href="{{ url_for('main.user', username=advisor.username) }}"></a>{{ advisor.name }} (email: {{ advisor.email }}, CC'd) to advise the project entitled {{ project.name }}</p>
+<p>From {{ advisor.name }}:</p>
+<p><b>What interest me about this project:</b> {{ interest }}</p>
+<p><b>How I can help:</b> {{ help_offered }}</p>
+<br>
+<p>Please engage {{ advisor.name }} at {{ advisor.email }}</p>

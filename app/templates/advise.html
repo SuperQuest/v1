@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}SUPERQUEST{% endblock %}
+
+{% block page_content %}
+
+<div class="row">
+	<ul class="posts">
+	        <li class="post">
+	            <div class="post-thumbnail">
+	                <a href="{{ url_for('.user', username=project.students[0].username) }}">
+	                    <img class="img-rounded profile-thumbnail" src="{{ project.students[0].gravatar(size=40) }}">
+	                </a>
+	            </div>
+	            <div class="post-content">
+	                <div class="post-date">{{ moment(project.timestamp).fromNow() }}</div>
+	                <div class="post-author" style="font-size: 25px">
+	                    <a href="{{ url_for('.user', username=project.students[0].username) }}">{{ project.students[0].username }}</a> <span class="glyphicon glyphicon-circle-arrow-right"></span> <a href="{{ url_for('main.view_project', id=project.id) }}">{{project.name}}</a></div>
+	                <div class="post-body">
+	                    <p>Subject: {{ project.subject}}</p>
+	                    <p>Description: {{ project.description}}</p>
+	                    <p>Help Wanted: {{ project.help_wanted }}</p>
+	                </div>
+	                <div class="post-footer">
+	                    <a href="{{ url_for('.view_project', id=project.id) }}#comments">
+	                        <span class="label label-primary">{{ project.comments.count() }} Comments</span>
+	                    </a>
+	                </div>
+	            </div>
+	        </li>
+	</ul>
+</div>
+
+<div class="row">
+	<h3>Please fill out this form to, which will be sent to the student's teacher.</h3>
+	<div>
+		{{ wtf.quick_form(form) }}
+	</div>
+</div>
+{% endblock %}
