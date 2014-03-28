@@ -9,7 +9,7 @@
     <h1>SUPERQUEST</h1>
     <p>Connecting students and professionals through projects</p>
     <a class = "btn btn-info" href="https://twitter.com/thesuperquest" target="_blank">Tweet It</a>
-    <a class = "btn btn-primary" href="https://www.facebook.com/pages/Superquest/613074062117199" target="_blank">Like It</a>
+    <a class = "btn btn-primary" href="https://www.facebook.com/thesuperquest" target="_blank">Like It</a>
   </div>
 </div>
 
@@ -22,15 +22,15 @@
     {% for berry in bunch %}
       <div class = "col-md-3">
         <h3><a href="{{ url_for('main.view_project', id=berry.id) }}">{{ berry.name }}</a></h3>
-        <p class="paragraph">{{berry.description}}</p>
+        <p>{{berry.description}}</p>
         {% if current_user.is_authenticated() %}
           {% if current_user.new_role == 'student' %}
-            <a class = "btn btn-success saint" href="{{ url_for('main.collaborate', id=berry.id) }}">Collaborate</a>
+            <a class = "btn btn-success" href="{{ url_for('main.collaborate', id=berry.id) }}">Collaborate</a>
           {% else %}
-            <a class = "btn btn-success saint" href="{{ url_for('main.volunteer', id=berry.id) }}">Volunteer</a>
+            <a class = "btn btn-success" href="{{ url_for('main.volunteer', id=berry.id) }}">Volunteer</a>
           {% endif %}
         {% else %}
-          <a class = "btn btn-success saint" href="{{ url_for('main.volunteer', id=berry.id) }}">Volunteer</a>
+          <a class = "btn btn-success" href="{{ url_for('main.volunteer', id=berry.id) }}">Volunteer</a>
         {% endif %}
       </div>
     {% endfor %}
@@ -58,15 +58,7 @@
 
 
 <!-- can omit the http or httmps in src -->
-
-
-{% endblock %}
-
-{% block scripts %}
-
-
 <script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src = "js/bootstrap.js"></script>
-
 
 {% endblock %}
