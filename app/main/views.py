@@ -553,7 +553,7 @@ def basic_handle_contact_form():
 
 @main.route('/dashboard', methods=['GET','POST'])
 def dashboard():
-    return render_template('dashboard/index.html')
+    return render_template('dashboard/dashboard_base.html')
 
 @main.route('/mydashboard', methods=['GET','POST'])
 def mydashboard():
