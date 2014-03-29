@@ -549,4 +549,17 @@ def basic_handle_contact_form():
         return redirect(url_for('main.home'))
     return render_template('new_contact.html', form=form)
 
+# templates ----------------------------------------------------------------
+
+@main.route('/dashboard', methods=['GET','POST'])
+def dashboard():
+    return render_template('dashboard/index.html')
+
+@main.route('/mydashboard', methods=['GET','POST'])
+def mydashboard():
+    return render_template('my/dashboard.html')
+
+@main.route('/blank', methods=['GET','POST'])
+def blank():
+    return render_template('dashboard/blank.html')
 

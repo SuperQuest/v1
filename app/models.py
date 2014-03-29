@@ -86,6 +86,12 @@ kid_parent_association_table = db.Table("kid_parent_association_table",
         db.Column("kid_id", db.Integer, db.ForeignKey("users.id"), primary_key=True)
 )
 
+student_teacher_association_table = db.Table("student_teacher_association_table", 
+        db.Model.metadata,
+        db.Column("teacher_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
+        db.Column("student_id", db.Integer, db.ForeignKey("users.id"), primary_key=True)
+)
+
 class Project(db.Model):
     """ 
     To-Do:  add teachers
@@ -108,8 +114,6 @@ class Project(db.Model):
     # comments = db.Column(db.String(50), default=[])
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     schools = db.Column(db.String())
-
-
 
     @staticmethod
     def generate_fake(count=100):
@@ -219,17 +223,17 @@ class User(UserMixin, db.Model):
                                backref="mentors",
                                lazy='dynamic')
 
-    # parents = db.relationship('User',
-    #                            secondary=kid_parent_association_table,
-    #                            foreign_keys=[kid_parent_association_table.parent_id],
-    #                            backref="kids",
-    #                            lazy='dynamic')
-
-    # kids = db.relationship('User',
-    #                            secondary=kid_parent_association_table,
-    #                            foreign_keys=[kid_parent_association_table.kid_id],
-    #                            backref="parents",
-    #                            lazy='dynamic')
+    parents = db.relationship('User',
+                               secondary=kid_parent_association_table,
+                               primaryjoin=id==kid_parent_association_table.c.kid_id,
+                               secondaryjoin=id==kid_parent_association_table.c.parent_id,
+                               backref="kids")
+    
+    teachers = db.relationship('User',
+                               secondary=student_teacher_association_table,
+                               primaryjoin=id==student_teacher_association_table.c.student_id,
+                               secondaryjoin=id==student_teacher_association_table.c.teacher_id,
+                               backref="students")
 
     #### MENTOR
     mentee_milestones_completed = db.Column(db.Integer)
@@ -317,7 +321,7 @@ class User(UserMixin, db.Model):
                 db.session.add(user)
                 db.session.commit()
 
-    def __init__(self, **kwargs):
+    def   __(self, **kwargs):
         """ sets role if no role is assigned """
         super(User, self).__init__(**kwargs)
         if self.role is None:
@@ -479,7 +483,6 @@ class AnonymousUser(AnonymousUserMixin):
         return False
 
 login_manager.anonymous_user = AnonymousUser
-
 
 @login_manager.user_loader
 def load_user(user_id):

@@ -42,8 +42,6 @@ class RegistrationForm(Form):
 
 class StudentRegistrationForm(RegistrationForm):
     school = SelectField(u'School', choices=schools)
-    teacher_email = StringField('Teacher Email', 
-                                validators=[Required(), Length(1,64)])
     submit = SubmitField('Register')
 
 class MentorRegistrationForm(RegistrationForm):
@@ -66,7 +64,6 @@ class ChangePasswordForm(Form):
         Required(), EqualTo('password2', message='Passwords must match')])
     password2 = PasswordField('Confirm new password', validators=[Required()])
     submit = SubmitField('Update Password')
-
 
 class PasswordResetRequestForm(Form):
     email = StringField('Email', validators=[Required(), Length(1, 64),

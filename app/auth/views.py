@@ -55,13 +55,14 @@ def register():
 def register_student():
     form = StudentRegistrationForm()
     if form.validate_on_submit():
-        teacher = User.query.filter_by(email=form.teacher_email.data)
+        # teacher = User.query.filter_by(email=form.teacher_email.data)
         user = User(email=form.email.data,
                     username=form.username.data,
                     password=form.password.data,
-                    teachers=[teacher],
+                    teacher_email=form.teacher_email.data,
                     school=form.school.data,
                     new_role='student')
+        # user.teachers. 
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
@@ -230,3 +231,8 @@ def change_email(token):
     else:
         flash('Invalid request.')
     return redirect(url_for('main.home'))
+
+
+
+
+
